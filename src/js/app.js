@@ -22,24 +22,51 @@ App = {
   },
 
   initContract: function() {
-    /*
-     * Replace me...
-     */
 
-    return App.bindEvents();
+    $.getJSON("PoolFactory.json", function(poolFactory) {
+
+      // Instantiate a new truffle contract from the artifact
+      App.contracts.PoolFactory = TruffleContract(poolFactory);
+      // Connect provider to interact with contract
+      App.contracts.PoolFactory.setProvider(App.web3Provider);
+
+      App.bindEvents();
+
+      return App.render();
+    });
+
   },
 
   bindEvents: function() {
 
   },
   render: function(){
+
+    var addrBtn = $('.nav-menu li.address a');
+
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
       if (err === null) {
         App.account = account;
-        console.log(account);
+        addrBtn.text('Address: ' + account);
+      } else {
+        addrBtn.text('Enable Metamask');
       }
     });
+
+    $('#create-pool').click(function(e) {
+      App.contracts.PoolFactory.deployed().then(function(instance){
+        var name = $('#pool-factory input[name=name]').text();
+        var addresses = [App.account];
+
+        $('#pool-factory input[name=address]').each(function(_, elem){
+          addresses.push(elem.text());
+        });
+        
+        //instance.createPool();
+      });
+    });
+
   }
 
 };

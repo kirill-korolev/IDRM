@@ -154,15 +154,11 @@ jQuery(document).ready(function( $ ) {
 
       var input = `
       <div class="form-group">
-        <input type="text" class="form-control address-for-pool" name="subject" placeholder="Address ${count}" data-rule="minlen:4" data-msg="Please enter at least 8 chars of address" />
+        <input type="text" class="form-control address-for-pool" name="address" placeholder="Address ${count}" data-rule="minlen:4" data-msg="Please enter at least 8 chars of address" />
         <div class="validation"></div>
       </div>
       `;
       $('#add-address').before(input);
-  });
-
-  $('#create-pool').click(function(e) {
-
   });
 
 });
