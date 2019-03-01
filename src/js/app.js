@@ -31,8 +31,14 @@ App = {
       App.contracts.PoolFactory.setProvider(App.web3Provider);
 
       App.bindEvents();
-
       return App.render();
+    });
+
+    $.getJSON("Pool.json", function(pool) {
+      // Instantiate a new truffle contract from the artifact
+      App.contracts.Pool = TruffleContract(pool);
+      // Connect provider to interact with contract
+      App.contracts.Pool.setProvider(App.web3Provider);
     });
 
   },
@@ -42,29 +48,60 @@ App = {
   },
   render: function(){
 
-    var addrBtn = $('.nav-menu li.address a');
+    var addrBtn = $('#address a');
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
       if (err === null) {
         App.account = account;
-        addrBtn.text('Address: ' + account);
+        addrBtn.text(account);
       } else {
         addrBtn.text('Enable Metamask');
       }
     });
 
+    var poolFactory;
+
+    App.contracts.PoolFactory.deployed().then(function(instance){
+      poolFactory = instance;
+    }).then(function(){
+      return poolFactory.poolsCount();
+    }).then(function(count){
+      for(var i = 1; i <= count; ++i){
+        poolFactory.pools(i).then(function(poolAddress){
+          var pool = App.contracts.Pool.at(poolAddress);
+
+          pool.name().then(function(name){
+            pool.arbitratorsCount().then(function(arbitratorsCount){
+              var block = `
+              <div class="col-lg-4 col-md-6">
+                <div class="speaker">
+                  <img src="https://miro.medium.com/max/1104/1*6bOXOdSXtre9t7aMgTr-4A.png" alt="Speaker 1" class="img-fluid">
+                  <div class="details">
+                    <h3><a href="speaker-details.html">${name}</a></h3>
+                    <p>${arbitratorsCount} arbitrators</p>
+                  </div>
+                </div>
+              </div>
+              `;
+
+              $('#speakers .row').append(block);
+            });
+          });
+
+        });
+      }
+    });
+
     $('#create-pool').click(function(e) {
-      App.contracts.PoolFactory.deployed().then(function(instance){
-        var name = $('#pool-factory input[name=name]').text();
+        var name = $('#pool-factory #name').val();
         var addresses = [App.account];
 
-        $('#pool-factory input[name=address]').each(function(_, elem){
-          addresses.push(elem.text());
+        $('#pool-factory input[name="address"]').each(function(_, elem){
+          addresses.push(elem.val());
         });
-        
-        //instance.createPool();
-      });
+
+        poolFactory.createPool(name, addresses);
     });
 
   }

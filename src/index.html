@@ -46,8 +46,10 @@
         <ul class="nav-menu">
           <li class="menu-active"><a href="#intro">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#contact">Pool</a></li>
-          <li class="address"><a href="javascript:void(0);">Internal Error</a></li>
+          <li><a href="#speakers">Pools</a></li>
+          <li class="menu-btn"><a href="#contact">Create Pool</a></li>
+          <li class="menu-btn"><a href="#">Create Dispute</a></li>
+          <li id="address"><a href="javascript: void(0);">Internal Error</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
 
@@ -100,14 +102,30 @@ pools.</p>
     </section>
 
     <!--==========================
-      Contact Section
+      Pools Section
+    ============================-->
+    <section id="speakers" class="wow fadeInUp">
+      <div class="container">
+        <div class="section-header">
+          <h2>Pools Collection</h2>
+          <p>Here are some of available pools</p>
+        </div>
+
+        <div class="row">
+        </div>
+      </div>
+
+    </section>
+
+    <!--==========================
+      Pool Section
     ============================-->
     <section id="contact" class="section-bg wow fadeInUp">
 
       <div class="container">
 
         <div class="section-header">
-          <h2>Pool</h2>
+          <h2>Create pool</h2>
           <p>Create your own pool of arbitrators</p>
         </div>
 
@@ -144,7 +162,7 @@ pools.</p>
           <div id="errormessage"></div>
           <form action="javascript: void(0);" max-addresses=3 role="form" class="contactForm">
             <div class="form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Pool name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+              <input type="text" name="name" class="form-control" id="name" placeholder="Pool name" />
               <div class="validation"></div>
             </div>
             <div class="text-left"><button id="add-address">Add Address</button></div>
