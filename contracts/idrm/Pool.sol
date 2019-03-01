@@ -21,13 +21,13 @@ contract Pool {
 		uint256 reputation;
 	}
 
-	mapping(uint256 => Master) public masters;
+	mapping(uint256 => Master) internal masters;
 	mapping(address => uint256) public mastersIds;
 	uint256 public mastersCount;
 
 	mapping(address => uint256) public pendingArbitrators;
 
-	mapping(uint256 => Arbitrator) public arbitrators;
+	mapping(uint256 => Arbitrator) internal arbitrators;
 	mapping(address => uint256) public arbitratorsIds;
 	uint256 public arbitratorsCount;
 
@@ -45,7 +45,7 @@ contract Pool {
 		_;
 	}
 
-	constructor(string _name, address[] _masters) public {
+	constructor(string memory _name, address[] memory _masters) public {
 		require(_masters.length > 0 && _masters.length < 5);
 
 		name = _name;
@@ -91,6 +91,6 @@ contract Pool {
 
 	function addArbitrator(address _arbitrator) private onlyMasters isPendingArbitrator(_arbitrator) {
 		arbitratorsIds[_arbitrator] = ++arbitratorsCount;
-		arbitrators[arbitratorsIds[_arbitrator]] = Arbitrator(_arbitrator);
+		arbitrators[arbitratorsIds[_arbitrator]] = Arbitrator(_arbitrator, 1);
 	}
 }
