@@ -48,7 +48,7 @@ App = {
   },
   render: function(){
 
-    var addrBtn = $('#address a');
+    var addrBtn = $('#address');
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -78,7 +78,7 @@ App = {
                 <div class="speaker">
                   <img src="https://miro.medium.com/max/1104/1*6bOXOdSXtre9t7aMgTr-4A.png" alt="Speaker 1" class="img-fluid">
                   <div class="details">
-                    <h3><a href="speaker-details.html">${name}</a></h3>
+                    <h3><a href="pool.html?address=${poolAddress}">${name}</a></h3>
                     <p>${arbitratorsCount} arbitrators</p>
                   </div>
                 </div>
@@ -94,15 +94,31 @@ App = {
     });
 
     $('#create-pool').click(function(e) {
+      App.contracts.PoolFactory.deployed().then(function(instance){
         var name = $('#pool-factory #name').val();
         var addresses = [App.account];
 
-        $('#pool-factory input[name="address"]').each(function(_, elem){
-          addresses.push(elem.val());
+        $('#pool-factory input[name="address"]').each(function(i, elem){
+          addresses.push($(this).val());
         });
 
-        poolFactory.createPool(name, addresses);
+        instance.createPool(name, addresses);
+      });
     });
+
+    App.contracts.PoolFactory.deployed().then(function(instance){
+      instance.poolsCount().then(function(poolsCount){
+        for(var i = 1; i <= poolsCount; ++i){
+          poolFactory.pools(i).then(function(poolAddress){
+            var pool = App.contracts.Pool.at(poolAddress);
+            pool.name().then(function(name){
+              $('#pool-select').append('<option>' + name + '</option>');
+            });
+          });
+        }
+      });
+    });
+
 
   }
 

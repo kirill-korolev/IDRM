@@ -38,7 +38,7 @@
 
       <div id="logo" class="pull-left">
         <!-- Uncomment below if you prefer to use a text logo -->
-        <h1><a href="#main"><span>I</span>DRM</a></h1>
+        <h1><a href="index.html"><span>I</span>DRM</a></h1>
         <!--<a href="#intro" class="scrollto"><img src="img/logo.png" alt="" title=""></a>-->
       </div>
 
@@ -47,9 +47,7 @@
           <li class="menu-active"><a href="#intro">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#speakers">Pools</a></li>
-          <li class="menu-btn"><a href="#contact">Create Pool</a></li>
-          <li class="menu-btn"><a href="#">Create Dispute</a></li>
-          <li id="address"><a href="javascript: void(0);">Internal Error</a></li>
+          <li class="menu-btn"><a href="account.html">Account</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
 
@@ -107,7 +105,7 @@ pools.</p>
     <section id="speakers" class="wow fadeInUp">
       <div class="container">
         <div class="section-header">
-          <h2>Pools Collection</h2>
+          <h2>Pools</h2>
           <p>Here are some of available pools</p>
         </div>
 
@@ -116,62 +114,6 @@ pools.</p>
       </div>
 
     </section>
-
-    <!--==========================
-      Pool Section
-    ============================-->
-    <section id="contact" class="section-bg wow fadeInUp">
-
-      <div class="container">
-
-        <div class="section-header">
-          <h2>Create pool</h2>
-          <p>Create your own pool of arbitrators</p>
-        </div>
-
-        <div class="row contact-info">
-
-          <div class="col-md-4">
-            <div class="contact-address">
-              <i class="ion-ios-location-outline"></i>
-              <h3>Masters</h3>
-              <address>You and at most 3 of your colleagues can become owners of the pool</address>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="contact-phone">
-              <i class="ion-ios-telephone-outline"></i>
-              <h3>Governance</h3>
-              <p>Confirm or deny pending arbitrators in a democratic manner</p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="contact-email">
-              <i class="ion-ios-email-outline"></i>
-              <h3>Arbitrators</h3>
-              <p>Any person except of masters can make a request to become a member of the pool</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="form" id="pool-factory">
-          <div id="sendmessage">Pool has been created!</div>
-          <div id="errormessage"></div>
-          <form action="javascript: void(0);" max-addresses=3 role="form" class="contactForm">
-            <div class="form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Pool name" />
-              <div class="validation"></div>
-            </div>
-            <div class="text-left"><button id="add-address">Add Address</button></div>
-            <div class="text-center"><button id="create-pool">Create Pool</button></div>
-          </form>
-        </div>
-
-      </div>
-    </section><!-- #contact -->
 
   </main>
 
@@ -194,6 +136,7 @@ pools.</p>
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
+  <script src="js/index.js"></script>
 
   </body>
 </html>
