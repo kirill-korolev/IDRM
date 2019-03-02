@@ -1173,7 +1173,18 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #fff;
 }
 
-#subscribe input {
+#subscribe select {
+  background: #fff;
+  color: #060c22;
+  border: 0;
+  outline: none;
+  margin: 0;
+  padding: 9px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+}
+
+#subscribe label {
   background: #fff;
   color: #060c22;
   border: 0;

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>IDRM - Account​</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/venobox/venobox.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+  <!--==========================
+    Header
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <!-- Uncomment below if you prefer to use a text logo -->
+        <h1><a href="index.html"><span>I</span>DRM</a></h1>
+        <!--<a href="#intro" class="scrollto"><img src="img/logo.png" alt="" title=""></a>-->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#intro">Info</a></li>
+          <li><a href="#contact">Pool</a></li>
+          <li><a href="#subscribe">Dispute</a></li>
+          <li class="menu-btn"><a href="index.html">Back</a></li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+
+    </div>
+  </header><!-- #header -->
+
+  <!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+    <div class="intro-container wow fadeIn">
+      <h1 class="mb-4 pb-0">Account</h1>
+      <p class="mb-4 pb-0">
+         Become a master in your own pool or make key decisions as an arbitrator<br>
+         Open a dispute and sign a virtual contract with a help of our dispute resolution mechanism
+       </p>
+      <a href="#contact" class="about-btn scrollto">Manage pools or disputes</a>
+    </div>
+  </section>
+
+  <main id="main">
+
+    <!--==========================
+      Pool Section
+    ============================-->
+    <section id="contact" class="section-bg wow fadeInUp">
+
+      <div class="container">
+
+        <div class="section-header">
+          <h2>Create pool</h2>
+          <p>Create your own pool of arbitrators</p>
+        </div>
+
+        <div class="row contact-info">
+
+          <div class="col-md-4">
+            <div class="contact-address">
+              <i class="ion-ios-location-outline"></i>
+              <h3>Masters</h3>
+              <address>You and at most 3 of your colleagues can become owners of the pool</address>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="contact-phone">
+              <i class="ion-ios-telephone-outline"></i>
+              <h3>Governance</h3>
+              <p>Confirm or deny pending arbitrators in a democratic manner</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="contact-email">
+              <i class="ion-ios-email-outline"></i>
+              <h3>Arbitrators</h3>
+              <p>Any person except of masters can make a request to become a member of the pool</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form" id="pool-factory">
+          <div id="sendmessage">Pool has been created!</div>
+          <div id="errormessage"></div>
+          <form action="javascript: void(0);" max-addresses=3 role="form" class="contactForm">
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Pool name" />
+              <div class="validation"></div>
+            </div>
+            <div class="text-left"><button id="add-address">Add Address</button></div>
+            <div class="text-center"><button id="create-pool">Create Pool</button></div>
+          </form>
+        </div>
+
+      </div>
+    </section><!-- #contact -->
+
+    <!--==========================
+      Subscribe Section
+    ============================-->
+    <section id="subscribe">
+      <div class="container wow fadeInUp">
+        <div class="section-header">
+          <h2>Open Dispute</h2>
+          <p>A contract with formal terms under arbitration</p>
+        </div>
+
+        <form method="POST" action="#">
+          <div class="form-row justify-content-center">
+            <div class="col-auto" style="margin-bottom: 20px;">
+              <select class="form-control" id="pool-select">
+                <option>Select Pool</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row justify-content-center">
+            <div class="col-auto">
+              <label class="form-control" for="terms">Upload terms</label>
+              <input type="file" style="opacity:0;" id="terms" placeholder="Upload terms">
+            </div>
+            <div class="col-auto">
+              <button type="submit">Open</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/venobox/venobox.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+  <script src="js/account.js"></script>
+  </body>
+</html>
