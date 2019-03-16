@@ -57,7 +57,7 @@ App.render = async function() {
 
   var checkPool = async function() {
       if(typeof App.contracts.Pool === 'undefined') {
-         window.setTimeout(checkPool, 100); /* this checks the flag every 100 milliseconds*/
+         window.setTimeout(checkPool, 1000); /* this checks the flag every 100 milliseconds*/
       } else {
         pool = await App.contracts.Pool.at(poolAddr);
         console.log('pool loaded');
