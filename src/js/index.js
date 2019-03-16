@@ -1,59 +1,40 @@
-jQuery(document).ready(function( $ ) {
+var render = App.render;
 
-  $('#add-address').click(function(e) {
+var renderPools = async function(pools) {
 
-      var count = $('.address-for-pool').length + 1;
+  for(var i = 0; i < pools.length; ++i){
+    var pool = pools[i];
 
-      if(count > $('#contact form').attr('max-addresses')) {
-          return;
-      }
+    var name = await pool.name();
+    var arbitratorsCount = await pool.arbitratorsCount();
 
-      var input = `
-      <div class="form-group">
-        <input type="text" class="form-control address-for-pool" name="address" placeholder="Address ${count}" data-rule="minlen:4" data-msg="Please enter at least 8 chars of address" />
-        <div class="validation"></div>
-      </div>
-      `;
-      $('#add-address').before(input);
-  });
-
-  var render = App.render;
-
-  App.render = function() {
-    render();
-    
-    App.contracts.PoolFactory.deployed().then(function(instance){
-      poolFactory = instance;
-    }).then(function(){
-      return poolFactory.poolsCount();
-    }).then(function(count){
-      for(var i = 1; i <= count; ++i){
-        poolFactory.pools(i).then(function(poolAddress){
-          var pool = App.contracts.Pool.at(poolAddress);
-
-          pool.name().then(function(name){
-            pool.arbitratorsCount().then(function(arbitratorsCount){
-              var block = `
-              <div class="col-lg-4 col-md-6">
-                <div class="speaker">
-                  <img src="https://miro.medium.com/max/1104/1*6bOXOdSXtre9t7aMgTr-4A.png" alt="Speaker 1" class="img-fluid">
-                  <div class="details">
-                    <h3><a href="pool.html?address=${poolAddress}">${name}</a></h3>
-                    <p>${arbitratorsCount} arbitrators</p>
-                  </div>
-                </div>
-              </div>
-              `;
-
-              $('#speakers .row').append(block);
-            });
-          });
-
-        });
-      }
-    });
+    $('#pools-list').append(`<li class="list-group-item"><h4><a href="pool.html?address=${pool.address}">${name}</a></h4><p>${arbitratorsCount} arbitrators</p></li>`);
+    $('#dispute-pool-select').append(`<option value="${pool.address}">${name}</option>`);
   }
+}
 
+var renderDisputes = async function(disputes) {
+  for(var i = 0; i < disputes.length; ++i){
+    var dispute = disputes[i];
 
+    if(App.account != await dispute.creator())
+      continue;
 
-});
+    var name = await dispute.name();
+    var poolAddr = await dispute.pool();
+    var pool = await App.contracts.Pool.at(poolAddr);
+    var creator = await dispute.creator();
+    var disputeFactory = await App.contracts.DisputeFactory.deployed();
+    var isActive = await disputeFactory.active(dispute.address);
+    $('#disputes-list').append(`<li class="list-group-item"><h4>${name}</h4><a href="pool.html?address=${pool.address}">${await pool.name()}</a><p>${isActive ? "Active" : "Closed"}</p></li>`);
+  }
+}
+
+App.render = async function() {
+  await render();
+  var pools = await App.pools();
+  var disputes = await App.disputes();
+
+  renderPools(pools);
+  renderDisputes(disputes);
+}

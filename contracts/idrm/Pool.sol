@@ -21,13 +21,16 @@ contract Pool {
 		uint256 reputation;
 	}
 
-	mapping(uint256 => Master) internal masters;
+	mapping(uint256 => Master) masters;
 	mapping(address => uint256) public mastersIds;
 	uint256 public mastersCount;
 
-	mapping(address => uint256) public pendingArbitrators;
+	mapping(uint256 => uint256) public pendingArbitrators;
+	mapping(address => uint256) public pendingArbitratorsIds;
+	mapping(uint256 => address) public pendingArbitratorsAddresses;
+	uint256 public pendingArbitratorsCount;
 
-	mapping(uint256 => Arbitrator) internal arbitrators;
+	mapping(uint256 => Arbitrator) arbitrators;
 	mapping(address => uint256) public arbitratorsIds;
 	uint256 public arbitratorsCount;
 
@@ -56,10 +59,18 @@ contract Pool {
 		}
 
 		mastersCount = _masters.length;
+		pendingArbitratorsCount = 0;
+		arbitratorsCount = 0;
 	}
 
 	function becomeArbitrator() public isPendingArbitrator(msg.sender) {
 		require(mastersIds[msg.sender] == 0);
+
+		pendingArbitratorsCount += 1;
+		pendingArbitratorsIds[msg.sender] = pendingArbitratorsCount;
+		pendingArbitrators[pendingArbitratorsIds[msg.sender]] = 1;
+		pendingArbitratorsAddresses[pendingArbitratorsIds[msg.sender]] = msg.sender;
+
 		emit PendingArbitrator(msg.sender);
 	}
 
@@ -73,9 +84,10 @@ contract Pool {
 	function confirmArbitrator(address _arbitrator) public onlyMasters isPendingArbitrator(_arbitrator) {
 		require(!masters[mastersIds[msg.sender]].confirmedArbitrators[_arbitrator]);
 		masters[mastersIds[msg.sender]].confirmedArbitrators[_arbitrator] = true;
-		pendingArbitrators[_arbitrator]++;
 
-		if (pendingArbitrators[_arbitrator] == mastersCount) {
+		pendingArbitrators[pendingArbitratorsIds[_arbitrator]]++;
+
+		if (pendingArbitrators[pendingArbitratorsIds[_arbitrator]] == mastersCount + 1) {
 			addArbitrator(_arbitrator);
 		}
 	}
@@ -86,11 +98,21 @@ contract Pool {
 			masters[i].confirmedArbitrators[_arbitrator] = false;
 		}
 
-		pendingArbitrators[_arbitrator] = 0;
+		pendingArbitrators[pendingArbitratorsIds[_arbitrator]] = 0;
 	}
 
 	function addArbitrator(address _arbitrator) private onlyMasters isPendingArbitrator(_arbitrator) {
-		arbitratorsIds[_arbitrator] = ++arbitratorsCount;
+		denyArbitrator(_arbitrator);
+		arbitratorsCount += 1;
+		arbitratorsIds[_arbitrator] = arbitratorsCount;
 		arbitrators[arbitratorsIds[_arbitrator]] = Arbitrator(_arbitrator, 1);
+	}
+
+	/*function getMaster(uint256 _index) public returns (mapping(address => bool) memory) {
+		return masters[_index].confirmedArbitrators;
+	}*/
+
+	function getArbitrator(uint256 _index) public view returns (address, uint256) {
+		return (arbitrators[_index].ethAddress, arbitrators[_index].reputation);
 	}
 }
