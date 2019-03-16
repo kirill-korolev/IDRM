@@ -53,21 +53,17 @@ App.render = async function() {
   await render();
 
   var poolAddr = $.urlParam('address');
-  var pool = null;
 
-  var checkPool = async function() {
+  var checkPool = function() {
       if(typeof App.contracts.Pool === 'undefined') {
          window.setTimeout(checkPool, 1000); /* this checks the flag every 100 milliseconds*/
       } else {
-        pool = await App.contracts.Pool.at(poolAddr);
-        console.log('pool loaded');
+        return;
       }
   }
 
-  await checkPool();
-
-  if(!pool)
-    return;
+  checkPool();
+  var pool = await App.contracts.Pool.at(poolAddr);
 
   $('#pool-header').text(`${await pool.name()}`);
 
